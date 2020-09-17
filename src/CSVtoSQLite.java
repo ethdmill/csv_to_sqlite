@@ -5,14 +5,45 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.*;
 
 public class CSVtoSQLite {
+    // initializes logger
+    private final static Logger LOG = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
     public static void main (String[] args) {
         ArrayList<String> validData = filterCSV();
         createTable("ms3Interview.db");
         // the if statement just ensures that validData doesn't not exist and isn't non-existent
         if (validData != null && validData.size() != 0) {
             insertData("ms3Interview.db", validData);
+        }
+    }
+
+    // this method is static because it only logs one set of data for the sake of this app
+    // and would likely be built differently in another scenario
+    public static void dataLogger (Integer inputLength, Integer validLength, Integer invalidLength) {
+        // stores values for log
+        LogRecord loggedData = new LogRecord(
+            Level.INFO,
+            "Records Received: " +
+            inputLength +
+            "\n" +
+            "Records Successful: " +
+            validLength +
+            "\n" +
+            "Records Failed: " +
+            invalidLength
+        );
+
+        // creates file logger
+        try {
+            FileHandler fileHandler = new FileHandler("ms3interview.log");
+            fileHandler.setLevel(Level.INFO);
+            LOG.addHandler(fileHandler);
+            LOG.log(loggedData);
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, "File logger not working");
         }
     }
 
@@ -46,6 +77,7 @@ public class CSVtoSQLite {
 
         // initial variables for further storage
         String line = "";
+        ArrayList<String> record = new ArrayList<>();
         ArrayList<String> valid = new ArrayList<>();
         ArrayList<String> invalid = new ArrayList<>();
 
@@ -55,10 +87,12 @@ public class CSVtoSQLite {
             // iterates through data and stores into array
             while ((line = csvReader.readLine()) != null) {
                 String[] values = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+                record.add(line);
                 Boolean isValid = true;
+                // pushes invalid rows into array list that gets pushed into separate csv file
                 for (int i = 0; i < values.length; i++) {
-                    // pushes invalid rows into array list that gets pushed into separate csv file
-                    if (values[i].isEmpty()) {
+                    // checks to make sure the row contains an empty cell AND prevents duplicate row entries
+                    if (values[i].isEmpty() && !invalid.contains(line)) {
                         invalid.add(line);
                         isValid = false;
                     }
@@ -77,6 +111,12 @@ public class CSVtoSQLite {
         if (invalid.size() > 0) {
             parseBadData(valid, invalid);
         }
+        // record subtracts 2 for headers and final empty line
+        // valid subtracts 1 for headers
+        // invalid subtracts 1 for headers
+        dataLogger(record.size() - 2, valid.size() - 1, invalid.size() - 1);
+
+        //returns valid ArrayList to be used elsewhere
         return valid;
     }
 

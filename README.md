@@ -10,7 +10,7 @@ Simple enough! Here's how I did it.
 
 ### Getting Started
 
-The entire project was pretty linear, so I started with the CSV input. I was provided a CSV to use, so I based the program around that. I did not use a Scanner in an effort to keep things nice and tight, but for malleable user input, I would have implemented one that prompts the user for a file, a number of columns, and a delimiter symbol.
+The entire project was pretty linear, so I started with the CSV input. I was provided a CSV to use, so I based the program around that. I did not use a Scanner in an effort to keep things nice and tight, but for malleable user input, I would have implemented one that prompts the user for a database file name, an input file, a number of columns, and a delimiter symbol.
 
 Either way, it takes in the file, and then starts going through the data. My given CSV file used commas for delimiters, so I split the values by commas and stored the data in an ArrayList. 
 
@@ -20,7 +20,7 @@ In true "blink and you'll miss it" fashion, I found that some data *included* co
 
 I then implemented a function to parse out the invalid data. The CSV featured ten columns (A-J) that corresponded to general user data. Given the sheer amount of data present in the CSV (over 6000 rows!), I made the assumption that any row without a value stored for each column counted as invalid data, so part of my data-sorting method also checks to see if the data column count per row makes the cut.
 
-If it does, it's valid, and it gets added to an ArrayList, since array lengths in Java don't change. If it's invalid, it gets thrown into a new CSV by way of another method. See you later, you less-than-ten-column disasters!
+If it does, it's valid, and it gets added to an ArrayList, since array lengths in Java don't change. If it's invalid, it gets thrown into a new CSV by way of another method. See you later, you less-than-ten-column disasters! It is also important to mention that I made another assumption: that special characters in column J were supposed to be there, as the data appeared to be location names, and could have been the result of a foreign language.
 
 Though the following statement didn't present an issue until the end, I feel that it's worth mentioning here, since it was at this point that I noticed it -- there was an extra line at the very end of the CSV data: presumably some kind of empty ending string. The invalid data parsing methods didn't pick this up, so we'll come back to it.
 
@@ -52,17 +52,23 @@ After resolving errors such as improper connection initialization and the printi
 
 The program runs nice and smoothly now, and once I figured out how ot get SQLite to connect properly, it worked great.
 
-It doesn't take too long to run, and I made an effort to make things as efficient as I could by implementing BufferReader, FileWriters, etc.
+It doesn't take too long to run, and I made an effort to make things as efficient as I could by implementing BufferReader, FileWriters, etc. I also added logs at the very end of the process.
 
-And so, here we are, writing this Readme. I'll be fixing a few minor logistical things, but fortunately, none of them are bugs!
+And so, here we are, writing this Readme! 
 
 ## Unleashing the Beast (How to Run)
+
+Simply clone the repo, open up the program, and build/run the main class! The databse, "bad" data vfile, and log file will all generate.
+
+## Some Notes
 
 For my own sanity, I included my generated database with the initial commit.
 
 Oh! Not to interrupt myself, but speaking of the initial commit, for some reason, I committed all of the logic at once, which is wildly out of character for me. Repo initialization is usually the first thing I do.
 
-Anyway, I will be removing the generated database in future commits. That way, upon cloning the repo, opening the project, and building/running for the first time, the database will be generated right before your very eyes! ...That is, if you're looking at the folder that contains the project.
+Anyway, I will be **removing** the generated database for future commits. That way, upon cloning the repo, opening the project, and building/running for the first time, the database will be generated right before your very eyes! ...That is, if you're looking at the folder that contains the project. Likewise, I will be removing the "bad" data CSV and the log file, which are both also generated every time the program runs.
+
+I implemented the log functionality last, even after initially writing the first draft of this Readme, and the logs actually helped me to catch something I messed up the first time around. Thanks, log files! It should also be noted that the log method is static, since it only does one specific thing. If I were to need to log other things, I would restructure the log functionality, or even move it to its own class file.
 
 ## tl;dr
 
