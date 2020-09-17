@@ -9,9 +9,10 @@ import java.util.ArrayList;
 public class CSVtoSQLite {
     public static void main (String[] args) {
         ArrayList<String> validData = filterCSV();
-        createTable("valid.db");
+        createTable("ms3Interview.db");
+        // the if statement just ensures that validData doesn't not exist and isn't non-existent
         if (validData != null && validData.size() != 0) {
-            insertData("valid.db", validData);
+            insertData("ms3Interview.db", validData);
         }
     }
 
@@ -40,8 +41,10 @@ public class CSVtoSQLite {
     }
 
     public static ArrayList<String> filterCSV () {
-        // variables for use in importing data
+        // data import -- could be a Scanner if user input is desired
         String csvPath = "C:/Users/Ethan/Desktop/Workspace/Coding/01_csv_to_sqlite/ms3Interview.csv";
+
+        // initial variables for further storage
         String line = "";
         ArrayList<String> valid = new ArrayList<>();
         ArrayList<String> invalid = new ArrayList<>();
@@ -60,6 +63,7 @@ public class CSVtoSQLite {
                         isValid = false;
                     }
                 }
+
                 // pushes valid rows into array list
                 if (isValid) {
                     valid.add(line);
