@@ -12,13 +12,13 @@ Simple enough! Here's how I did it.
 
 The entire project was pretty linear, so I started with the CSV input. I was provided a CSV to use, so I based the program around that. I did not use a Scanner in an effort to keep things nice and tight, but for malleable user input, I would have implemented one that prompts the user for a database file name, an input file, a number of columns, and a delimiter symbol.
 
-Either way, it takes in the file, and then starts going through the data. My given CSV file used commas for delimiters, so I split the values by commas and stored the data in an ArrayList. 
+Either way, it takes in the file, and then starts parsing through the data. My given CSV file used commas for delimiters, so I split the values by commas and stored the data in an ArrayList.
 
 In true "blink and you'll miss it" fashion, I found that some data *included* commas, so I had to make sure to use a regex to flatten the data with a split before iterating through it. Almost got me there!
 
 ### Get That Data Out of Here!
 
-I then implemented a function to parse out the invalid data. The CSV featured ten columns (A-J) that corresponded to general user data. Given the sheer amount of data present in the CSV (over 6000 rows!), I made the assumption that any row without a value stored for each column counted as invalid data, so part of my data-sorting method also checks to see if the data column count per row makes the cut.
+I then implemented a function to parse out the invalid data. The CSV featured ten columns (A-J) that corresponded to what I assumed what generalized user data points. Given the sheer amount of data present in the CSV (over 6000 rows!), I made the assumption that any row without a value stored for each column counted as invalid data, so part of my data-sorting method also checks to see if the data column count per row makes the cut.
 
 If it does, it's valid, and it gets added to an ArrayList, since array lengths in Java don't change. If it's invalid, it gets thrown into a new CSV by way of another method. See you later, you less-than-ten-column disasters! It is also important to mention that I made another assumption: that special characters in column J were supposed to be there, as the data appeared to be location names, and could have been the result of a foreign language.
 
@@ -30,7 +30,7 @@ The next part is where things got trickier. I have admittedly never worked with 
 
 I was faced with the task of getting my app to generate a SQLite database, which presented challenges such as "Hey, you need SQLite drivers!" and "Wow, those drivers are in the wrong spot no matter where you put them!", which was initially frustrating.
 
-However, I finally figured out that it was an IntelliJ thing -- that is, I had to update the dependencies in my project's build path. At that point, it worked like a charm.
+However, I finally figured out that it was an external project logistics issue -- that is, I had to update the dependencies in my project's build path. Upon doing so, it worked like a charm.
 
 ### Table Creation, Data Management, and the Will to Go On
 
@@ -50,7 +50,7 @@ After resolving errors such as improper connection initialization and the printi
 
 ### Logistics, or: How I Learned to Stop Worrying and Love SQLite
 
-The program runs nice and smoothly now, and once I figured out how ot get SQLite to connect properly, it worked great.
+The program runs nice and smoothly now, and once I figured out how to get SQLite to connect properly, it worked great.
 
 It doesn't take too long to run, and I made an effort to make things as efficient as I could by implementing BufferReader, FileWriters, etc. I also added logs at the very end of the process.
 
@@ -58,7 +58,7 @@ And so, here we are, writing this Readme!
 
 ## Unleashing the Beast (How to Run)
 
-Simply clone the repo, open up the program, and build/run the main class! The databse, "bad" data vfile, and log file will all generate.
+Simply clone the repo, open up the program, and build/run the main class! The database, "bad" data file, and log file will all generate.
 
 ## Some Notes
 
