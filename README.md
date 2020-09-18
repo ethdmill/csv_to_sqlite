@@ -18,11 +18,11 @@ In true "blink and you'll miss it" fashion, I found that some data *included* co
 
 ### Get That Data Out of Here!
 
-I then implemented a function to parse out the invalid data. The CSV featured ten columns (A-J) that corresponded to what I assumed what generalized user data points. Given the sheer amount of data present in the CSV (over 6000 rows!), I made the assumption that any row without a value stored for each column counted as invalid data, so part of my data-sorting method also checks to see if the data column count per row makes the cut.
+I then implemented a function to parse out the invalid data. The CSV featured ten columns (A-J) that corresponded to what I assumed were generalized user data points. Given the sheer amount of data present in the CSV (over 6000 rows!), I made the assumption that any row without a value stored for each column counted as invalid data, so part of my data-sorting method also checks to see if the data column count per row makes the cut.
 
-If it does, it's valid, and it gets added to an ArrayList, since array lengths in Java don't change. If it's invalid, it gets thrown into a new CSV by way of another method. See you later, you less-than-ten-column disasters! It is also important to mention that I made another assumption: that special characters in column J were supposed to be there, as the data appeared to be location names, and could have been the result of a foreign language.
+If it does, it's valid, and it gets added to an ArrayList, since array lengths in Java don't change. If it's invalid, it gets thrown into a new CSV by way of another method. See you later, you less-than-ten-column disasters! It is also important to mention that I made another assumption: that the special characters in column J were supposed to be there, as the data appeared to be location names, and thus, could have resulted from foreign languages.
 
-Though the following statement didn't present an issue until the end, I feel that it's worth mentioning here, since it was at this point that I noticed it -- there was an extra line at the very end of the CSV data: presumably some kind of empty ending string. The invalid data parsing methods didn't pick this up, so we'll come back to it.
+Though the following statement didn't present an issue until the end, I feel that it's worth mentioning here, since it was at this point that I noticed it -- there was an extra line at the very end of the CSV data: presumably some kind of EoF character. The invalid data parsing methods didn't pick this up, so we'll come back to it.
 
 ### The Next Bit -- Connecting SQLite
 
